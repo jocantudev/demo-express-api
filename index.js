@@ -15,6 +15,17 @@ app.get('/participants', (req, res) => {
   res.json({ participants });
 });
 
+app.get('/participants/:email', (req, res) => {
+  const { email } = req.params;
+  const participant = participants.find((p) => p.email === email);
+
+  if (!participant) {
+    return res.status(404).json({ error: 'Participante no encontrado' });
+  }
+
+  res.json({ participant });
+});
+
 app.post('/participants', (req, res) => {
   const { email, username } = req.body;
 
@@ -26,6 +37,18 @@ app.post('/participants', (req, res) => {
   participants.push(participant);
 
   res.status(201).json({ message: 'Participante guardado', participant });
+});
+
+app.delete('/participants/:email', (req, res) => {
+  const { email } = req.params;
+  const index = participants.findIndex((p) => p.email === email);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Participante no encontrado' });
+  }
+
+  participants.splice(index, 1);
+  res.json({ message: 'Participante eliminado' });
 });
 
 app.listen(PORT, () => {
