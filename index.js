@@ -39,6 +39,25 @@ app.post('/participants', (req, res) => {
   res.status(201).json({ message: 'Participante guardado', participant });
 });
 
+app.patch('/participants/:email', (req, res) => {
+  const { email } = req.params;
+  const { newEmail } = req.body;
+
+  if (!newEmail) {
+    return res.status(400).json({ error: 'newEmail es requerido' });
+  }
+
+  const participant = participants.find((p) => p.email === email);
+
+  if (!participant) {
+    return res.status(404).json({ error: 'Participante no encontrado' });
+  }
+
+  participant.email = newEmail;
+
+  res.json({ message: 'Email actualizado', participant });
+});
+
 app.delete('/participants/:email', (req, res) => {
   const { email } = req.params;
   const index = participants.findIndex((p) => p.email === email);

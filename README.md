@@ -29,6 +29,7 @@ The server runs at `http://localhost:3000` by default. Set the `PORT` environmen
 | GET | `/participants` | Returns the list of all participants |
 | GET | `/participants/:email` | Returns a single participant by email |
 | POST | `/participants` | Adds a new participant |
+| PATCH | `/participants/:email` | Updates a participant email |
 | DELETE | `/participants/:email` | Deletes a participant by email |
 
 ### POST `/participants`
@@ -66,6 +67,30 @@ Returns a single participant matching the given email. Returns `404` if not foun
 {
   "participant": {
     "email": "user@example.com",
+    "username": "johndoe"
+  }
+}
+```
+
+### PATCH `/participants/:email`
+
+Updates the email of the participant matching the current email. Returns `404` if not found.
+
+**Request body:**
+
+```json
+{
+  "newEmail": "newuser@example.com"
+}
+```
+
+**Response (200):**
+
+```json
+{
+  "message": "Email actualizado",
+  "participant": {
+    "email": "newuser@example.com",
     "username": "johndoe"
   }
 }
